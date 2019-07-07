@@ -14,14 +14,14 @@ create table if not exists Album(
 );
 
 create table if not exists Song(
-	songID 				int 			auto_increment primary key,
-    track 				varchar(64),
-    title 				varchar(64) 	not null,
-    artist 				int 			not null,
-    album 				int,
-    genre 				int,
-    yearOfPublication	varchar(8),
-    pathToFile 			varchar(255)	not null
+	songID 		int 			auto_increment primary key,
+    track 		varchar(64),
+    title 		varchar(64) 	not null,
+    artist 		int 			not null,
+    album 		int,
+    genre 		int,
+    year		varchar(8),
+    pathToFile 	varchar(255)	not null
 );
 
 create table if not exists User(
@@ -36,7 +36,7 @@ create table if not exists User(
 create table if not exists Playlist(
 	playlistID 			int 			auto_increment primary key,
     name 				varchar(128)	not null,
-    creationDate		timestamp 		not null,
+    creationdate		timestamp 		not null,
     owner 				int 			not null,
     visibility 			varchar(8) 		not null,
     constraint checkVisibility check(visibility in ('true', 'false'))
