@@ -1,16 +1,16 @@
 create table if not exists Artist(
-	artistID 	int 		auto_increment primary key,
-    name		varchar(64)	unique not null
+	artistID int 		auto_increment primary key,
+    name	varchar(64)	unique not null
 );
 
 create table if not exists Genre(
-	genreID 		int 		auto_increment primary key,
-    description		varchar(64)	unique not null
+	genreID 	int 		auto_increment primary key,
+    description	varchar(64)	unique not null
 );
 
 create table if not exists Album(
-	albumID 		int 		auto_increment primary key,
-    name	varchar(64)	unique not null
+	albumID int 		 auto_increment primary key,
+    name	varchar(64)	 not null
 );
 
 create table if not exists Song(
@@ -34,11 +34,11 @@ create table if not exists User(
 );
 
 create table if not exists Playlist(
-	playlistID 			int 			auto_increment primary key,
-    name 				varchar(128)	not null,
-    creationdate		timestamp 		not null,
-    owner 				int 			not null,
-    visibility 			varchar(8) 		not null,
+	playlistID 		int 			auto_increment primary key,
+    name 			varchar(128)	not null,
+    creationdate	timestamp 		not null,
+    owner 			int 			not null,
+    visibility 		varchar(8) 		not null,
     constraint checkVisibility check(visibility in ('true', 'false'))
 );
 
