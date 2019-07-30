@@ -39,7 +39,7 @@ public class Playlist implements Serializable
 	@ManyToMany
 	@JoinTable(name="Subscription", joinColumns={@JoinColumn(name="playlist")},
 			inverseJoinColumns={@JoinColumn(name="subscriber")})
-	private List<User> subscriber;
+	private List<User> subscribers;
 
 	private String visibility;
 	private String name;
@@ -55,7 +55,7 @@ public class Playlist implements Serializable
 		this.owner = owner;
 		this.songs = new ArrayList<>();
 		this.visibility = Boolean.toString(visibility);
-		this.subscriber = new ArrayList<>();
+		this.subscribers = new ArrayList<>();
 	}
 
 
@@ -140,18 +140,18 @@ public class Playlist implements Serializable
 		this.visibility = Boolean.toString(visibility);
 	}
 
-	public List<User> getSubscriber()
+	public List<User> getSubscribers()
 	{
-		return Collections.unmodifiableList(this.subscriber);
+		return Collections.unmodifiableList(this.subscribers);
 	}
 
 	public void subscribe(final User user)
 	{
-		this.subscriber.add(user);
+		this.subscribers.add(user);
 	}
 
 	public void unsubscribe(final User user)
 	{
-		this.subscriber.remove(user);
+		this.subscribers.remove(user);
 	}
 }

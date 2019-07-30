@@ -15,7 +15,7 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Integer>
 
 	List<Playlist> findByName(String playlistName);
 
-	List<Playlist> findByOwner(int ownerID);
-
-	List<Playlist> findBySubscriber(int subcriberID);
+//	List<Playlist> findByOwner(int ownerID);
+//
+//	List<Playlist> findBySubscriber(int subcriberID);
 }

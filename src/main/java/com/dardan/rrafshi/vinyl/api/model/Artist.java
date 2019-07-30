@@ -66,4 +66,9 @@ public class Artist implements Serializable
 	{
 		return this.name;
 	}
+
+	public void setName(final String name)
+	{
+		this.name = name;
+	}
 }

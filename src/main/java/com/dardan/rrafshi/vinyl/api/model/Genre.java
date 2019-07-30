@@ -67,4 +67,9 @@ public class Genre implements Serializable
 	{
 		return this.description;
 	}
+
+	public void setDescription(final String description)
+	{
+		this.description = description;
+	}
 }
