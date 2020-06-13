@@ -21,10 +21,6 @@ public final class AlbumItem implements Serializable
 	@JoinColumn(name="album", nullable=false)
 	private Album album;
 
-	@ManyToOne
-	@JoinColumn(name="track", nullable=false)
-	private Track track;
-
 	private int trackNumber;
 
 
@@ -72,16 +68,6 @@ public final class AlbumItem implements Serializable
 	public void setAlbum(final Album album)
 	{
 		this.album = album;
-	}
-
-	public Track getTrack()
-	{
-		return this.track;
-	}
-
-	public void setTrack(final Track track)
-	{
-		this.track = track;
 	}
 
 	public int getTrackNumber()

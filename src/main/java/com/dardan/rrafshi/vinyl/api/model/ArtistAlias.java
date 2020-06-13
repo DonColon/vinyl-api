@@ -5,8 +5,6 @@ import java.util.Objects;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -16,10 +14,6 @@ public final class ArtistAlias implements Serializable
 
 	@EmbeddedId
 	private ArtistAliasID artistAliasID;
-
-	@ManyToOne
-	@JoinColumn(name="artist", nullable=false)
-	private Artist artist;
 
 	private String alias;
 
@@ -58,16 +52,6 @@ public final class ArtistAlias implements Serializable
 	public void setID(final ArtistAliasID artistAliasID)
 	{
 		this.artistAliasID = artistAliasID;
-	}
-
-	public Artist getArtist()
-	{
-		return this.artist;
-	}
-
-	public void setArtist(final Artist artist)
-	{
-		this.artist = artist;
 	}
 
 	public String getAlias()

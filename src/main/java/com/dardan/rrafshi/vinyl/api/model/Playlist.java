@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -32,6 +33,10 @@ public final class Playlist implements Serializable
 	@JoinTable(name="Subscription", joinColumns={@JoinColumn(name="playlist")},
 		inverseJoinColumns={@JoinColumn(name="subscriber")})
 	private List<User> subscribers;
+
+	@OneToMany
+	@JoinColumn(name="playlist", nullable=false)
+	private List<PlaylistItem> tracks;
 
 	private String title;
 	private String description;
@@ -97,6 +102,16 @@ public final class Playlist implements Serializable
 	public void setSubscribers(final List<User> subscribers)
 	{
 		this.subscribers = subscribers;
+	}
+
+	public List<PlaylistItem> getTracks()
+	{
+		return this.tracks;
+	}
+
+	public void setTracks(final List<PlaylistItem> tracks)
+	{
+		this.tracks = tracks;
 	}
 
 	public String getTitle()

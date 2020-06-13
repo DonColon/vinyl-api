@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -23,6 +24,14 @@ public final class Artist implements Serializable
 	@JoinTable(name="Member", joinColumns={@JoinColumn(name="artist")},
 		inverseJoinColumns={@JoinColumn(name="member")})
 	private List<Artist> members;
+
+	@OneToMany
+	@JoinColumn(name="artist", nullable=false)
+	private List<ArtistAlias> aliases;
+
+	@OneToMany
+	@JoinColumn(name="artist", nullable=false)
+	private List<SocialMedia> urls;
 
 	private String description;
 	private String imagePath;
@@ -73,6 +82,26 @@ public final class Artist implements Serializable
 	public void setMembers(final List<Artist> members)
 	{
 		this.members = members;
+	}
+
+	public List<ArtistAlias> getAliases()
+	{
+		return this.aliases;
+	}
+
+	public void setAliases(final List<ArtistAlias> aliases)
+	{
+		this.aliases = aliases;
+	}
+
+	public List<SocialMedia> getUrls()
+	{
+		return this.urls;
+	}
+
+	public void setUrls(final List<SocialMedia> urls)
+	{
+		this.urls = urls;
 	}
 
 	public String getDescription()

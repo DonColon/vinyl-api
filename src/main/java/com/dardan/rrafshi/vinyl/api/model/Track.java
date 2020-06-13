@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -21,6 +22,14 @@ public final class Track implements Serializable
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long trackID;
+
+	@OneToMany
+	@JoinColumn(name="track", nullable=false)
+	private List<Interpreter> interpreters;
+
+	@OneToMany
+	@JoinColumn(name="track", nullable=false)
+	private List<AlbumItem> albums;
 
 	@ManyToMany
 	@JoinTable(name="MusicStyle", joinColumns={@JoinColumn(name="track")},
@@ -72,6 +81,26 @@ public final class Track implements Serializable
 	public void setID(final long trackID)
 	{
 		this.trackID = trackID;
+	}
+
+	public List<Interpreter> getInterpreters()
+	{
+		return this.interpreters;
+	}
+
+	public void setInterpreters(final List<Interpreter> interpreters)
+	{
+		this.interpreters = interpreters;
+	}
+
+	public List<AlbumItem> getAlbums()
+	{
+		return this.albums;
+	}
+
+	public void setAlbums(final List<AlbumItem> albums)
+	{
+		this.albums = albums;
 	}
 
 	public List<Genre> getGenres()

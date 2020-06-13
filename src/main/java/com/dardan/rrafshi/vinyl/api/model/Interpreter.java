@@ -18,10 +18,6 @@ public final class Interpreter implements Serializable
 	private InterpreterID interpreterID;
 
 	@ManyToOne
-	@JoinColumn(name="track", nullable=false)
-	private Track track;
-
-	@ManyToOne
 	@JoinColumn(name="interpreter", nullable=false)
 	private Artist interpreter;
 
@@ -62,16 +58,6 @@ public final class Interpreter implements Serializable
 	public void setInterpreterID(final InterpreterID interpreterID)
 	{
 		this.interpreterID = interpreterID;
-	}
-
-	public Track getTrack()
-	{
-		return this.track;
-	}
-
-	public void setTrack(final Track track)
-	{
-		this.track = track;
 	}
 
 	public Artist getInterpreter()

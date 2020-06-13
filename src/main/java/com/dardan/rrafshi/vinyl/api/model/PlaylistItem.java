@@ -19,10 +19,6 @@ public final class PlaylistItem implements Serializable
 	private PlaylistItemID playlistItemID;
 
 	@ManyToOne
-	@JoinColumn(name="playlist", nullable=false)
-	private Playlist playlist;
-
-	@ManyToOne
 	@JoinColumn(name="track", nullable=false)
 	private Track track;
 
@@ -65,16 +61,6 @@ public final class PlaylistItem implements Serializable
 	public void setID(final PlaylistItemID playlistItemID)
 	{
 		this.playlistItemID = playlistItemID;
-	}
-
-	public Playlist getPlaylist()
-	{
-		return this.playlist;
-	}
-
-	public void setPlaylist(final Playlist playlist)
-	{
-		this.playlist = playlist;
 	}
 
 	public Track getTrack()

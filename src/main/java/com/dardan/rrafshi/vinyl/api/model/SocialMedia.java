@@ -5,14 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-/*create table if not exists SocialMedia(
-		artist varchar(64),
-	    url varchar(256),
-	    primary key(artist, url)
-);*/
 
 @Entity
 public final class SocialMedia implements Serializable
@@ -21,10 +14,6 @@ public final class SocialMedia implements Serializable
 
 	@EmbeddedId
 	private SocialMediaID socialMediaID;
-
-	@ManyToOne
-	@JoinColumn(name="artist", nullable=false)
-	private Artist artist;
 
 	private String url;
 
@@ -63,16 +52,6 @@ public final class SocialMedia implements Serializable
 	public void setID(final SocialMediaID socialMediaID)
 	{
 		this.socialMediaID = socialMediaID;
-	}
-
-	public Artist getArtist()
-	{
-		return this.artist;
-	}
-
-	public void setArtist(final Artist artist)
-	{
-		this.artist = artist;
 	}
 
 	public String getUrl()
