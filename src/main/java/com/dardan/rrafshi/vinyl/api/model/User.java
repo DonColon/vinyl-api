@@ -1,6 +1,7 @@
 package com.dardan.rrafshi.vinyl.api.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -10,53 +11,46 @@ import javax.persistence.Id;
 
 
 @Entity
-public class User implements Serializable
+public final class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int userID;
+	private long userID;
 
 	private String firstname;
 	private String familyname;
+	private String gender;
+	private LocalDate birthday;
+
 	private String username;
 	private String email;
 	private String password;
-
-
-	public User() {}
-
-	public User(final String firstname, final String familyname,
-				final String username, final String email, final String password)
-	{
-		this.firstname = firstname;
-		this.familyname = familyname;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-	}
+	private LocalDate entryDate;
 
 
 	@Override
 	public String toString()
 	{
-		return "User [userID=" + this.userID + ", firstname=" + this.firstname + ", familyname=" + this.familyname
-				+ ", username=" + this.username + ", email=" + this.email + ", password=" + this.password + "]";
+		return "User [userID=" + this.userID + ", firstname=" + this.firstname
+				+ ", familyname=" + this.familyname + ", gender=" + this.gender
+				+ ", birthday=" + this.birthday + ", username=" + this.username
+				+ ", email=" + this.email + ", password=" + this.password
+				+ ", entryDate=" + this.entryDate + "]";
 	}
 
 	@Override
 	public boolean equals(final Object object)
 	{
-		if(object == null) return false;
-		if(this == object) return true;
+		if (this == object) return true;
+		if (object == null) return false;
 
-		if(this.getClass() != object.getClass())
+		if (this.getClass() != object.getClass())
 			return false;
 
 		final User other = (User) object;
-		return Objects.equals(this.userID, other.userID);
+		return this.userID == other.userID;
 	}
 
 	@Override
@@ -66,9 +60,14 @@ public class User implements Serializable
 	}
 
 
-	public int getID()
+	public long getID()
 	{
 		return this.userID;
+	}
+
+	public void setID(final long userID)
+	{
+		this.userID = userID;
 	}
 
 	public String getFirstname()
@@ -89,6 +88,26 @@ public class User implements Serializable
 	public void setFamilyname(final String familyname)
 	{
 		this.familyname = familyname;
+	}
+
+	public Gender getGender()
+	{
+		return Gender.of(this.gender);
+	}
+
+	public void setGender(final Gender gender)
+	{
+		this.gender = gender.getAbbreviation();
+	}
+
+	public LocalDate getBirthday()
+	{
+		return this.birthday;
+	}
+
+	public void setBirthday(final LocalDate birthday)
+	{
+		this.birthday = birthday;
 	}
 
 	public String getUsername()
@@ -119,5 +138,15 @@ public class User implements Serializable
 	public void setPassword(final String password)
 	{
 		this.password = password;
+	}
+
+	public LocalDate getEntryDate()
+	{
+		return this.entryDate;
+	}
+
+	public void setEntryDate(final LocalDate entryDate)
+	{
+		this.entryDate = entryDate;
 	}
 }

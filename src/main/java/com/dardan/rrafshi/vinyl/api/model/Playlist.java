@@ -2,8 +2,6 @@ package com.dardan.rrafshi.vinyl.api.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,95 +16,67 @@ import javax.persistence.ManyToOne;
 
 
 @Entity
-public class Playlist implements Serializable
+public final class Playlist implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int playlistID;
+	private long playlistID;
 
 	@ManyToOne
 	@JoinColumn(name="owner", nullable=false)
 	private User owner;
 
 	@ManyToMany
-	@JoinTable(name="Playback", joinColumns={@JoinColumn(name="playlist")},
-			inverseJoinColumns={@JoinColumn(name="song")})
-	private List<Song> songs;
-
-	@ManyToMany
 	@JoinTable(name="Subscription", joinColumns={@JoinColumn(name="playlist")},
-			inverseJoinColumns={@JoinColumn(name="subscriber")})
+		inverseJoinColumns={@JoinColumn(name="subscriber")})
 	private List<User> subscribers;
 
-	private String visibility;
-	private String name;
-	private LocalDate creationdate;
+	private String title;
+	private String description;
 
-
-	public Playlist() {}
-
-	public Playlist(final String name, final User owner, final boolean visibility)
-	{
-		this.name = name;
-		this.creationdate = LocalDate.now();
-		this.owner = owner;
-		this.songs = new ArrayList<>();
-		this.visibility = Boolean.toString(visibility);
-		this.subscribers = new ArrayList<>();
-	}
+	private int isPublic;
+	private String imagePath;
+	private LocalDate creationDate;
 
 
 	@Override
 	public String toString()
 	{
-		return "Playlist [playlistID=" + this.playlistID + ", name=" + this.name
-				+ ", creationdate=" + this.creationdate + ", owner=" + this.owner
-				+ ", songs=" + this.songs + ", visibility=" + this.visibility + "]";
+		return "Playlist [playlistID=" + this.playlistID + ", title=" + this.title
+				+ ", description=" + this.description + ", isPublic=" + this.isPublic
+				+ ", imagePath=" + this.imagePath + ", creationDate=" + this.creationDate + "]";
 	}
 
 	@Override
 	public boolean equals(final Object object)
 	{
-		if(object == null) return false;
-		if(this == object) return true;
+		if (this == object) return true;
+		if (object == null) return false;
 
-		if(this.getClass() != object.getClass())
+		if (this.getClass() != object.getClass())
 			return false;
 
 		final Playlist other = (Playlist) object;
-		return Objects.equals(this.playlistID, other.playlistID)
-			&& Objects.equals(this.creationdate, other.creationdate)
-			&& Objects.equals(this.owner, other.owner);
+		return this.playlistID == other.playlistID;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(this.playlistID, this.creationdate, this.owner);
+		return Objects.hash(this.playlistID);
 	}
 
 
-	public int getID()
+	public long getID()
 	{
 		return this.playlistID;
 	}
 
-	public String getName()
+	public void setID(final long playlistID)
 	{
-		return this.name;
-	}
-
-	public void setName(final String name)
-	{
-		this.name = name;
-	}
-
-	public LocalDate getCreationdate()
-	{
-		return this.creationdate;
+		this.playlistID = playlistID;
 	}
 
 	public User getOwner()
@@ -114,44 +84,71 @@ public class Playlist implements Serializable
 		return this.owner;
 	}
 
-	public List<Song> getSongs()
+	public void setOwner(final User owner)
 	{
-		return Collections.unmodifiableList(this.songs);
-	}
-
-	public void addSong(final Song song)
-	{
-		this.songs.add(song);
-	}
-
-	public void removeSong(final Song song)
-	{
-		this.songs.remove(song);
-	}
-
-	public boolean isVisibile()
-	{
-		final Boolean visibility = Boolean.valueOf(this.visibility);
-		return visibility.booleanValue();
-	}
-
-	public void setVisibility(final boolean visibility)
-	{
-		this.visibility = Boolean.toString(visibility);
+		this.owner = owner;
 	}
 
 	public List<User> getSubscribers()
 	{
-		return Collections.unmodifiableList(this.subscribers);
+		return this.subscribers;
 	}
 
-	public void subscribe(final User user)
+	public void setSubscribers(final List<User> subscribers)
 	{
-		this.subscribers.add(user);
+		this.subscribers = subscribers;
 	}
 
-	public void unsubscribe(final User user)
+	public String getTitle()
 	{
-		this.subscribers.remove(user);
+		return this.title;
+	}
+
+	public void setTitle(final String title)
+	{
+		this.title = title;
+	}
+
+	public String getDescription()
+	{
+		return this.description;
+	}
+
+	public void setDescription(final String description)
+	{
+		this.description = description;
+	}
+
+	public boolean isPublic()
+	{
+		return this.isPublic == 1;
+	}
+
+	public void setPublic(final boolean isPublic)
+	{
+		if(isPublic)
+			this.isPublic = 1;
+		else
+			this.isPublic = 0;
+	}
+
+	public String getImagePath()
+	{
+		return this.imagePath;
+	}
+
+	public void setImagePath(final String imagePath)
+	{
+		this.imagePath = imagePath;
+	}
+
+	public LocalDate getCreationDate()
+	{
+		return this.creationDate;
+	}
+
+	public void setCreationDate(final LocalDate creationDate)
+	{
+		this.creationDate = creationDate;
 	}
 }

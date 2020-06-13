@@ -1,74 +1,123 @@
 package com.dardan.rrafshi.vinyl.api.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 
 @Entity
-public class Album implements Serializable
+public final class Album implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int albumID;
+	private long albumID;
 
-	private String name;
+	@ManyToMany
+	@JoinTable(name="Collaboration", joinColumns={@JoinColumn(name="album")},
+		inverseJoinColumns={@JoinColumn(name="artist")})
+	private List<Artist> collaboration;
 
-
-	public Album() {}
-
-	public Album(final String name)
-	{
-		this.name = name;
-	}
+	private String title;
+	private String year;
+	private String type;
+	private String imagePath;
 
 
 	@Override
 	public String toString()
 	{
-		return "Album [albumID=" + this.albumID + ", name=" + this.name + "]";
+		return "Album [albumID=" + this.albumID + ", title=" + this.title
+				+ ", year=" + this.year + ", type=" + this.type
+				+ ", imagePath=" + this.imagePath + "]";
 	}
 
 	@Override
 	public boolean equals(final Object object)
 	{
-		if(object == null) return false;
-		if(this == object) return true;
+		if (this == object) return true;
+		if (object == null) return false;
 
-		if(this.getClass() != object.getClass())
+		if (this.getClass() != object.getClass())
 			return false;
 
 		final Album other = (Album) object;
-		return Objects.equals(this.albumID, other.albumID)
-			&& Objects.equals(this.name, other.name);
+		return this.albumID == other.albumID;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(this.albumID, this.name);
+		return Objects.hash(this.albumID);
 	}
 
 
-	public int getID()
+	public long getID()
 	{
 		return this.albumID;
 	}
 
-	public String getName()
+	public void setID(final long albumID)
 	{
-		return this.name;
+		this.albumID = albumID;
 	}
 
-	public void setName(final String name)
+	public List<Artist> getCollaboration()
 	{
-		this.name = name;
+		return this.collaboration;
+	}
+
+	public void setCollaboration(final List<Artist> collaboration)
+	{
+		this.collaboration = collaboration;
+	}
+
+	public String getTitle()
+	{
+		return this.title;
+	}
+
+	public void setTitle(final String title)
+	{
+		this.title = title;
+	}
+
+	public String getYear()
+	{
+		return this.year;
+	}
+
+	public void setYear(final String year)
+	{
+		this.year = year;
+	}
+
+	public AlbumType getType()
+	{
+		return AlbumType.of(this.type);
+	}
+
+	public void setType(final AlbumType type)
+	{
+		this.type = type.getDescription();
+	}
+
+	public String getImagePath()
+	{
+		return this.imagePath;
+	}
+
+	public void setImagePath(final String imagePath)
+	{
+		this.imagePath = imagePath;
 	}
 }

@@ -1,0 +1,29 @@
+package com.dardan.rrafshi.vinyl.api.model;
+
+public enum InterpreterRole
+{
+	FEAT("Ft."),
+	AND("&"),
+	;
+
+	private String abbreviation;
+
+	private InterpreterRole(final String abbreviation)
+	{
+		this.abbreviation = abbreviation;
+	}
+
+	public static InterpreterRole of(final String abbreviation)
+	{
+		for(final InterpreterRole role : InterpreterRole.values())
+			if(abbreviation.equals(role.abbreviation))
+				return role;
+
+		return null;
+	}
+
+	public String getAbbreviation()
+	{
+		return this.abbreviation;
+	}
+}
