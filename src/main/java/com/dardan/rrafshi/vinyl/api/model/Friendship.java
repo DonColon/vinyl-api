@@ -19,11 +19,11 @@ public final class Friendship implements Serializable
 	private FriendshipID friendshipID;
 
 	@ManyToOne
-	@JoinColumn(name="requestor", nullable=false)
+	@JoinColumn(name="requestor", nullable=false, insertable=false, updatable=false)
 	private User requestor;
 
 	@ManyToOne
-	@JoinColumn(name="responser", nullable=false)
+	@JoinColumn(name="responser", nullable=false, insertable=false, updatable=false)
 	private User responser;
 
 	private LocalDate startDate;

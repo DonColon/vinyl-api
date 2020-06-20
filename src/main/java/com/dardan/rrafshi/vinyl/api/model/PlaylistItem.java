@@ -19,7 +19,7 @@ public final class PlaylistItem implements Serializable
 	private PlaylistItemID playlistItemID;
 
 	@ManyToOne
-	@JoinColumn(name="track", nullable=false)
+	@JoinColumn(name="track", nullable=false, insertable=false, updatable=false)
 	private Track track;
 
 	private int sequence;

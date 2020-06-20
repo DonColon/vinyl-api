@@ -2,6 +2,7 @@ package com.dardan.rrafshi.vinyl.api.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,11 +33,11 @@ public final class Playlist implements Serializable
 	@ManyToMany
 	@JoinTable(name="Subscription", joinColumns={@JoinColumn(name="playlist")},
 		inverseJoinColumns={@JoinColumn(name="subscriber")})
-	private List<User> subscribers;
+	private List<User> subscribers = new ArrayList<>();
 
 	@OneToMany
-	@JoinColumn(name="playlist", nullable=false)
-	private List<PlaylistItem> tracks;
+	@JoinColumn(name="playlist", nullable=false, insertable=false, updatable=false)
+	private List<PlaylistItem> tracks = new ArrayList<>();
 
 	private String title;
 	private String description;
@@ -104,6 +105,16 @@ public final class Playlist implements Serializable
 		this.subscribers = subscribers;
 	}
 
+	public void addSubscriber(final User user)
+	{
+		this.subscribers.add(user);
+	}
+
+	public void removeSubscriber(final User user)
+	{
+		this.subscribers.remove(user);
+	}
+
 	public List<PlaylistItem> getTracks()
 	{
 		return this.tracks;
@@ -112,6 +123,16 @@ public final class Playlist implements Serializable
 	public void setTracks(final List<PlaylistItem> tracks)
 	{
 		this.tracks = tracks;
+	}
+
+	public void addTrack(final PlaylistItem track)
+	{
+		this.tracks.add(track);
+	}
+
+	public void removeTrack(final PlaylistItem track)
+	{
+		this.tracks.remove(track);
 	}
 
 	public String getTitle()

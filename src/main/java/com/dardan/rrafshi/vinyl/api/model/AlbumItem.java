@@ -18,7 +18,7 @@ public final class AlbumItem implements Serializable
 	private AlbumItemID albumItemID;
 
 	@ManyToOne
-	@JoinColumn(name="album", nullable=false)
+	@JoinColumn(name="album", nullable=false, insertable=false, updatable=false)
 	private Album album;
 
 	private int trackNumber;

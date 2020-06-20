@@ -1,6 +1,7 @@
 package com.dardan.rrafshi.vinyl.api.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +26,7 @@ public final class Album implements Serializable
 	@ManyToMany
 	@JoinTable(name="Collaboration", joinColumns={@JoinColumn(name="album")},
 		inverseJoinColumns={@JoinColumn(name="artist")})
-	private List<Artist> collaboration;
+	private List<Artist> collaboration = new ArrayList<>();
 
 	private String title;
 	private String year;
@@ -71,14 +72,24 @@ public final class Album implements Serializable
 		this.albumID = albumID;
 	}
 
-	public List<Artist> getCollaboration()
+	public List<Artist> getArtists()
 	{
 		return this.collaboration;
 	}
 
-	public void setCollaboration(final List<Artist> collaboration)
+	public void setArtists(final List<Artist> collaboration)
 	{
 		this.collaboration = collaboration;
+	}
+
+	public void addArtist(final Artist artist)
+	{
+		this.collaboration.add(artist);
+	}
+
+	public void removeArtist(final Artist artist)
+	{
+		this.collaboration.remove(artist);
 	}
 
 	public String getTitle()

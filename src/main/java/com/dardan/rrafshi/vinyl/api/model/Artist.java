@@ -1,6 +1,7 @@
 package com.dardan.rrafshi.vinyl.api.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,15 +24,15 @@ public final class Artist implements Serializable
 	@ManyToMany
 	@JoinTable(name="Member", joinColumns={@JoinColumn(name="artist")},
 		inverseJoinColumns={@JoinColumn(name="member")})
-	private List<Artist> members;
+	private List<Artist> members = new ArrayList<>();
 
 	@OneToMany
-	@JoinColumn(name="artist", nullable=false)
-	private List<ArtistAlias> aliases;
+	@JoinColumn(name="artist", nullable=false, insertable=false, updatable=false)
+	private List<ArtistAlias> aliases = new ArrayList<>();
 
 	@OneToMany
-	@JoinColumn(name="artist", nullable=false)
-	private List<SocialMedia> urls;
+	@JoinColumn(name="artist", nullable=false, insertable=false, updatable=false)
+	private List<SocialMedia> urls = new ArrayList<>();
 
 	private String description;
 	private String imagePath;
@@ -84,6 +85,16 @@ public final class Artist implements Serializable
 		this.members = members;
 	}
 
+	public void addMember(final Artist artist)
+	{
+		this.members.add(artist);
+	}
+
+	public void removeMember(final Artist artist)
+	{
+		this.members.remove(artist);
+	}
+
 	public List<ArtistAlias> getAliases()
 	{
 		return this.aliases;
@@ -94,6 +105,16 @@ public final class Artist implements Serializable
 		this.aliases = aliases;
 	}
 
+	public void addAlias(final ArtistAlias alias)
+	{
+		this.aliases.add(alias);
+	}
+
+	public void removeAlias(final ArtistAlias alias)
+	{
+		this.aliases.remove(alias);
+	}
+
 	public List<SocialMedia> getUrls()
 	{
 		return this.urls;
@@ -102,6 +123,16 @@ public final class Artist implements Serializable
 	public void setUrls(final List<SocialMedia> urls)
 	{
 		this.urls = urls;
+	}
+
+	public void addUrl(final SocialMedia url)
+	{
+		this.urls.add(url);
+	}
+
+	public void removeUrl(final SocialMedia url)
+	{
+		this.urls.remove(url);
 	}
 
 	public String getDescription()

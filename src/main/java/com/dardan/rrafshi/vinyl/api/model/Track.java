@@ -1,6 +1,7 @@
 package com.dardan.rrafshi.vinyl.api.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,22 +25,22 @@ public final class Track implements Serializable
 	private long trackID;
 
 	@OneToMany
-	@JoinColumn(name="track", nullable=false)
-	private List<Interpreter> interpreters;
+	@JoinColumn(name="track", nullable=false, insertable=false, updatable=false)
+	private List<Interpreter> interpreters = new ArrayList<>();
 
 	@OneToMany
-	@JoinColumn(name="track", nullable=false)
-	private List<AlbumItem> albums;
+	@JoinColumn(name="track", nullable=false, insertable=false, updatable=false)
+	private List<AlbumItem> albums = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name="MusicStyle", joinColumns={@JoinColumn(name="track")},
 		inverseJoinColumns={@JoinColumn(name="genre")})
-	private List<Genre> genres;
+	private List<Genre> genres = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name="Favorite", joinColumns={@JoinColumn(name="track")},
 		inverseJoinColumns={@JoinColumn(name="user")})
-	private List<User> favorites;
+	private List<User> favorites = new ArrayList<>();
 
 	private String title;
 	private String duration;
@@ -93,6 +94,16 @@ public final class Track implements Serializable
 		this.interpreters = interpreters;
 	}
 
+	public void addInterpreter(final Interpreter interpreter)
+	{
+		this.interpreters.add(interpreter);
+	}
+
+	public void removeInterpreter(final Interpreter interpreter)
+	{
+		this.interpreters.remove(interpreter);
+	}
+
 	public List<AlbumItem> getAlbums()
 	{
 		return this.albums;
@@ -101,6 +112,16 @@ public final class Track implements Serializable
 	public void setAlbums(final List<AlbumItem> albums)
 	{
 		this.albums = albums;
+	}
+
+	public void addAlbum(final AlbumItem albumItem)
+	{
+		this.albums.add(albumItem);
+	}
+
+	public void removeAlbum(final AlbumItem albumItem)
+	{
+		this.albums.remove(albumItem);
 	}
 
 	public List<Genre> getGenres()
@@ -113,6 +134,16 @@ public final class Track implements Serializable
 		this.genres = genres;
 	}
 
+	public void addGenre(final Genre genre)
+	{
+		this.genres.add(genre);
+	}
+
+	public void removeGenre(final Genre genre)
+	{
+		this.genres.remove(genre);
+	}
+
 	public List<User> getFavorites()
 	{
 		return this.favorites;
@@ -121,6 +152,16 @@ public final class Track implements Serializable
 	public void setFavorites(final List<User> favorites)
 	{
 		this.favorites = favorites;
+	}
+
+	public void addFavorite(final User user)
+	{
+		this.favorites.add(user);
+	}
+
+	public void removeFavorite(final User user)
+	{
+		this.favorites.remove(user);
 	}
 
 	public String getTitle()

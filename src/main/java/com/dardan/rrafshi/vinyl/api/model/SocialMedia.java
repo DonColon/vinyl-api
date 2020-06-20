@@ -3,6 +3,7 @@ package com.dardan.rrafshi.vinyl.api.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -15,6 +16,7 @@ public final class SocialMedia implements Serializable
 	@EmbeddedId
 	private SocialMediaID socialMediaID;
 
+	@Column(insertable=false, updatable=false)
 	private String url;
 
 

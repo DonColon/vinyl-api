@@ -18,7 +18,7 @@ public final class Interpreter implements Serializable
 	private InterpreterID interpreterID;
 
 	@ManyToOne
-	@JoinColumn(name="interpreter", nullable=false)
+	@JoinColumn(name="interpreter", nullable=false, insertable=false, updatable=false)
 	private Artist interpreter;
 
 	private String role;
