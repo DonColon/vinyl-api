@@ -16,7 +16,7 @@ public enum InterpreterRole
 	public static InterpreterRole of(final String abbreviation)
 	{
 		for(final InterpreterRole role : InterpreterRole.values())
-			if(abbreviation.equals(role.abbreviation))
+			if(role.abbreviation.equals(abbreviation))
 				return role;
 
 		return null;

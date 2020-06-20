@@ -19,7 +19,7 @@ public enum Gender
 	public static Gender of(final String abbreviation)
 	{
 		for(final Gender gender : Gender.values())
-			if(abbreviation.equals(gender.abbreviation))
+			if(gender.abbreviation.equals(abbreviation))
 				return gender;
 
 		return null;

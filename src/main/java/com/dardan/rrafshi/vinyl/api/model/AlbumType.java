@@ -17,7 +17,7 @@ public enum AlbumType
 	public static AlbumType of(final String description)
 	{
 		for(final AlbumType gender : AlbumType.values())
-			if(description.equals(gender.description))
+			if(gender.description.equals(description))
 				return gender;
 
 		return null;
