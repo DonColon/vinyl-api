@@ -7,8 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.dardan.rrafshi.vinyl.api.model.serializer.SocialMediaSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 @Entity
+@JsonSerialize(using=SocialMediaSerializer.class)
 public final class SocialMedia implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -46,6 +51,7 @@ public final class SocialMedia implements Serializable
 	}
 
 
+	@JsonIgnore
 	public SocialMediaID getID()
 	{
 		return this.socialMediaID;

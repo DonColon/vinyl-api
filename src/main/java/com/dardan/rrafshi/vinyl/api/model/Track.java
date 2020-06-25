@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public final class Track implements Serializable
@@ -144,6 +146,7 @@ public final class Track implements Serializable
 		this.genres.remove(genre);
 	}
 
+	@JsonIgnore
 	public List<User> getFavorites()
 	{
 		return this.favorites;

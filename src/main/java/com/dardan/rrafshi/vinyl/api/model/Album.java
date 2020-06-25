@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public final class Album implements Serializable
@@ -72,6 +74,7 @@ public final class Album implements Serializable
 		this.albumID = albumID;
 	}
 
+	@JsonIgnore
 	public List<Artist> getArtists()
 	{
 		return this.collaboration;

@@ -8,8 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.dardan.rrafshi.vinyl.api.model.serializer.AlbumItemSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 @Entity
+@JsonSerialize(using=AlbumItemSerializer.class)
 public final class AlbumItem implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -50,6 +55,7 @@ public final class AlbumItem implements Serializable
 	}
 
 
+	@JsonIgnore
 	public AlbumItemID getID()
 	{
 		return this.albumItemID;

@@ -9,8 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.dardan.rrafshi.vinyl.api.model.serializer.PlaylistItemSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 @Entity
+@JsonSerialize(using=PlaylistItemSerializer.class)
 public final class PlaylistItem implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -53,6 +58,7 @@ public final class PlaylistItem implements Serializable
 	}
 
 
+	@JsonIgnore
 	public PlaylistItemID getID()
 	{
 		return this.playlistItemID;

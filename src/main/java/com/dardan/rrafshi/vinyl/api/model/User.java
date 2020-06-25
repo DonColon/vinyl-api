@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public final class User implements Serializable
@@ -70,6 +72,7 @@ public final class User implements Serializable
 		this.userID = userID;
 	}
 
+	@JsonIgnore
 	public String getFirstname()
 	{
 		return this.firstname;
@@ -80,6 +83,7 @@ public final class User implements Serializable
 		this.firstname = firstname;
 	}
 
+	@JsonIgnore
 	public String getFamilyname()
 	{
 		return this.familyname;
@@ -90,6 +94,7 @@ public final class User implements Serializable
 		this.familyname = familyname;
 	}
 
+	@JsonIgnore
 	public Gender getGender()
 	{
 		return Gender.of(this.gender);
@@ -100,6 +105,7 @@ public final class User implements Serializable
 		this.gender = gender.getAbbreviation();
 	}
 
+	@JsonIgnore
 	public LocalDate getBirthday()
 	{
 		return this.birthday;
@@ -120,6 +126,7 @@ public final class User implements Serializable
 		this.username = username;
 	}
 
+	@JsonIgnore
 	public String getEmail()
 	{
 		return this.email;
@@ -130,6 +137,7 @@ public final class User implements Serializable
 		this.email = email;
 	}
 
+	@JsonIgnore
 	public String getPassword()
 	{
 		return this.password;

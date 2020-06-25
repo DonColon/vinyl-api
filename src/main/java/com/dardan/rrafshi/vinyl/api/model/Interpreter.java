@@ -8,8 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.dardan.rrafshi.vinyl.api.model.serializer.InterpreterSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 @Entity
+@JsonSerialize(using=InterpreterSerializer.class)
 public final class Interpreter implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -50,6 +55,7 @@ public final class Interpreter implements Serializable
 	}
 
 
+	@JsonIgnore
 	public InterpreterID getInterpreterID()
 	{
 		return this.interpreterID;

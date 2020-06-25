@@ -12,8 +12,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public final class Artist implements Serializable
 {
 	private static final long serialVersionUID = 1L;

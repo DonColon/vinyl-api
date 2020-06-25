@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public final class Playlist implements Serializable
@@ -95,6 +97,7 @@ public final class Playlist implements Serializable
 		this.owner = owner;
 	}
 
+	@JsonIgnore
 	public List<User> getSubscribers()
 	{
 		return this.subscribers;

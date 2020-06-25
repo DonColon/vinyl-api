@@ -6,8 +6,12 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.dardan.rrafshi.vinyl.api.model.serializer.GenreSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 @Entity
+@JsonSerialize(using=GenreSerializer.class)
 public final class Genre implements Serializable
 {
 	private static final long serialVersionUID = 1L;
