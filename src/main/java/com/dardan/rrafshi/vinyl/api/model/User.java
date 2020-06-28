@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Entity
@@ -29,7 +30,8 @@ public final class User implements Serializable
 	private String username;
 	private String email;
 	private String password;
-	private LocalDate entryDate;
+
+	private LocalDate entryDate = LocalDate.now();
 
 
 	@Override
@@ -61,12 +63,25 @@ public final class User implements Serializable
 		return Objects.hash(this.userID);
 	}
 
+	public void set(final User other)
+	{
+		this.firstname = other.firstname;
+		this.familyname = other.familyname;
+		this.gender = other.gender;
+		this.birthday = other.birthday;
+		this.username = other.username;
+		this.email = other.email;
+		this.password = other.password;
+	}
 
+
+	@JsonProperty
 	public long getID()
 	{
 		return this.userID;
 	}
 
+	@JsonIgnore
 	public void setID(final long userID)
 	{
 		this.userID = userID;
@@ -78,6 +93,7 @@ public final class User implements Serializable
 		return this.firstname;
 	}
 
+	@JsonProperty
 	public void setFirstname(final String firstname)
 	{
 		this.firstname = firstname;
@@ -89,6 +105,7 @@ public final class User implements Serializable
 		return this.familyname;
 	}
 
+	@JsonProperty
 	public void setFamilyname(final String familyname)
 	{
 		this.familyname = familyname;
@@ -100,6 +117,7 @@ public final class User implements Serializable
 		return Gender.of(this.gender);
 	}
 
+	@JsonProperty
 	public void setGender(final Gender gender)
 	{
 		this.gender = gender.getAbbreviation();
@@ -111,6 +129,7 @@ public final class User implements Serializable
 		return this.birthday;
 	}
 
+	@JsonProperty
 	public void setBirthday(final LocalDate birthday)
 	{
 		this.birthday = birthday;
@@ -132,6 +151,7 @@ public final class User implements Serializable
 		return this.email;
 	}
 
+	@JsonProperty
 	public void setEmail(final String email)
 	{
 		this.email = email;
@@ -143,16 +163,19 @@ public final class User implements Serializable
 		return this.password;
 	}
 
+	@JsonProperty
 	public void setPassword(final String password)
 	{
 		this.password = password;
 	}
 
+	@JsonProperty
 	public LocalDate getEntryDate()
 	{
 		return this.entryDate;
 	}
 
+	@JsonIgnore
 	public void setEntryDate(final LocalDate entryDate)
 	{
 		this.entryDate = entryDate;
