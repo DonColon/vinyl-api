@@ -14,13 +14,13 @@ import com.dardan.rrafshi.vinyl.api.model.Playlist;
 public interface PlaylistRepository extends JpaRepository<Playlist, Long>
 {
 	@Query("select p from Playlist p where p.owner.userID = ?1")
-	List<Playlist> findByOwner(long userID, Pageable pagination);
+	List<Playlist> findByOwner(long userID, Pageable paging);
 
 	@Query("select p from Playlist p left join p.subscribers s where s.userID = ?1")
-	List<Playlist> findBySubscriber(long userID, Pageable pagination);
+	List<Playlist> findBySubscriber(long userID, Pageable paging);
 
 	@Query("select p from Playlist p where p.isPublic = 1")
-	List<Playlist> findByPublic(Pageable pagination);
+	List<Playlist> findByPublic(Pageable paging);
 
-	List<Playlist> findByTitleContaining(String title, Pageable pagination);
+	List<Playlist> findByTitleContaining(String title, Pageable paging);
 }

@@ -12,5 +12,5 @@ import com.dardan.rrafshi.vinyl.api.model.Artist;
 @Repository
 public interface ArtistRepository extends JpaRepository<Artist, String>
 {
-	List<Artist> findByNameContaining(String name, Pageable pagination);
+	List<Artist> findByNameContaining(String name, Pageable paging);
 }

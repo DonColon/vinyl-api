@@ -11,8 +11,8 @@ public final class PlaylistItemID implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private int playlist;
-	private int track;
+	private long playlist;
+	private long track;
 
 
 	@Override
@@ -42,22 +42,22 @@ public final class PlaylistItemID implements Serializable
 	}
 
 
-	public int getPlaylist()
+	public long getPlaylist()
 	{
 		return this.playlist;
 	}
 
-	public void setPlaylist(final int playlist)
+	public void setPlaylist(final long playlist)
 	{
 		this.playlist = playlist;
 	}
 
-	public int getTrack()
+	public long getTrack()
 	{
 		return this.track;
 	}
 
-	public void setTrack(final int track)
+	public void setTrack(final long track)
 	{
 		this.track = track;
 	}

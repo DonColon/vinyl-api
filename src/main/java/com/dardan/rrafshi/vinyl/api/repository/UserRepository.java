@@ -12,9 +12,9 @@ import com.dardan.rrafshi.vinyl.api.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>
 {
-	List<User> findByUsernameContaining(String username, Pageable pagination);
+	List<User> findByUsernameContaining(String username, Pageable paging);
 
-	List<User> findByEmailContaining(String email, Pageable pagination);
+	List<User> findByEmailContaining(String email, Pageable paging);
 
 	User findByUsername(String username);
 

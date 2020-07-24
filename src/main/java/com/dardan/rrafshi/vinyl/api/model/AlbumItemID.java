@@ -11,8 +11,8 @@ public final class AlbumItemID implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private int album;
-	private int track;
+	private long album;
+	private long track;
 
 
 	@Override
@@ -41,22 +41,22 @@ public final class AlbumItemID implements Serializable
 	}
 
 
-	public int getAlbum()
+	public long getAlbum()
 	{
 		return this.album;
 	}
 
-	public void setAlbum(final int album)
+	public void setAlbum(final long album)
 	{
 		this.album = album;
 	}
 
-	public int getTrack()
+	public long getTrack()
 	{
 		return this.track;
 	}
 
-	public void setTrack(final int track)
+	public void setTrack(final long track)
 	{
 		this.track = track;
 	}

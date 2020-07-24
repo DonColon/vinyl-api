@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dardan.rrafshi.commons.Strings;
 import com.dardan.rrafshi.vinyl.api.VinylException;
-import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Pagination;
+import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Paging;
 import com.dardan.rrafshi.vinyl.api.model.Album;
-import com.dardan.rrafshi.vinyl.api.model.Artist;
 import com.dardan.rrafshi.vinyl.api.repository.AlbumRepository;
 import com.dardan.rrafshi.vinyl.api.repository.ArtistRepository;
 
@@ -32,15 +31,6 @@ public final class AlbumController
 	private ArtistRepository artistRepository;
 
 
-	@GetMapping("/albums")
-	public List<Album> listAlbums(final Pagination pagination)
-	{
-		final Pageable pageRequest = pagination.toPageRequest();
-		final Page<Album> albums = this.albumRepository.findAll(pageRequest);
-
-		return albums.getContent();
-	}
-
 	@GetMapping("/albums/{albumID}")
 	public Album retrieveAlbum(@PathVariable final long albumID)
 	{
@@ -52,22 +42,29 @@ public final class AlbumController
 		return entity.get();
 	}
 
-	@GetMapping("/artists/{artistID}/albums}")
-	public List<Album> retrieveByArtist(@PathVariable final String artistID, final Pagination pagination)
+	@GetMapping("/albums")
+	public List<Album> listAlbums(final Paging paging)
 	{
-		final Optional<Artist> entity = this.artistRepository.findById(artistID);
+		final Pageable pageRequest = paging.toPageRequest();
+		final Page<Album> albums = this.albumRepository.findAll(pageRequest);
 
-		if(!entity.isPresent())
+		return albums.getContent();
+	}
+
+	@GetMapping("/artists/{artistID}/albums}")
+	public List<Album> listByArtist(@PathVariable final String artistID, final Paging paging)
+	{
+		if(!this.artistRepository.existsById(artistID))
 			throw new VinylException.NotFound("The artist with the ID '" + artistID + "' does not exist");
 
-		final Pageable pageRequest = pagination.toPageRequest();
+		final Pageable pageRequest = paging.toPageRequest();
 		return this.albumRepository.findByArtist(artistID, pageRequest);
 	}
 
 	@PostMapping("/search/albums")
-	public List<Album> searchAlbum(@RequestBody final Map<String,String> body, final Pagination pagination)
+	public List<Album> searchAlbum(@RequestBody final Map<String,String> body, final Paging paging)
 	{
-		if(body.containsKey("searchText"))
+		if(!body.containsKey("searchText"))
 			throw new VinylException.BadRequest("The json content does not contain a field 'searchText'");
 
 		final String searchText = body.get("searchText");
@@ -75,7 +72,7 @@ public final class AlbumController
 		if(Strings.isBlank(searchText))
 			throw new VinylException.BadRequest("The field 'searchText' should not be blank");
 
-		final Pageable pageRequest = pagination.toPageRequest();
+		final Pageable pageRequest = paging.toPageRequest();
 		return this.albumRepository.findByTitleContaining(searchText, pageRequest);
 	}
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dardan.rrafshi.commons.Strings;
 import com.dardan.rrafshi.vinyl.api.VinylException;
-import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Pagination;
+import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Paging;
 import com.dardan.rrafshi.vinyl.api.model.Artist;
 import com.dardan.rrafshi.vinyl.api.repository.ArtistRepository;
 
@@ -26,15 +26,6 @@ public final class ArtistController
 	@Autowired
 	private ArtistRepository artistRepository;
 
-
-	@GetMapping("/artists")
-	public List<Artist> listArtists(final Pagination pagination)
-	{
-		final Pageable pageRequest = pagination.toPageRequest();
-		final Page<Artist> artists = this.artistRepository.findAll(pageRequest);
-
-		return artists.getContent();
-	}
 
 	@GetMapping("/artists/{artistID}")
 	public Artist retrieveArtist(@PathVariable final String artistID)
@@ -47,10 +38,19 @@ public final class ArtistController
 		return entity.get();
 	}
 
-	@PostMapping("/search/artists")
-	public List<Artist> searchAlbum(@RequestBody final Map<String,String> body, final Pagination pagination)
+	@GetMapping("/artists")
+	public List<Artist> listArtists(final Paging paging)
 	{
-		if(body.containsKey("searchText"))
+		final Pageable pageRequest = paging.toPageRequest();
+		final Page<Artist> artists = this.artistRepository.findAll(pageRequest);
+
+		return artists.getContent();
+	}
+
+	@PostMapping("/search/artists")
+	public List<Artist> searchAlbum(@RequestBody final Map<String,String> body, final Paging paging)
+	{
+		if(!body.containsKey("searchText"))
 			throw new VinylException.BadRequest("The json content does not contain a field 'searchText'");
 
 		final String searchText = body.get("searchText");
@@ -58,7 +58,7 @@ public final class ArtistController
 		if(Strings.isBlank(searchText))
 			throw new VinylException.BadRequest("The field 'searchText' should not be blank");
 
-		final Pageable pageRequest = pagination.toPageRequest();
+		final Pageable pageRequest = paging.toPageRequest();
 		return this.artistRepository.findByNameContaining(searchText, pageRequest);
 	}
 }

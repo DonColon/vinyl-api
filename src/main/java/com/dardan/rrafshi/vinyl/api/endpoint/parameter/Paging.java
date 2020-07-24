@@ -9,13 +9,20 @@ import com.dardan.rrafshi.commons.Strings;
 import com.dardan.rrafshi.vinyl.api.Constants;
 
 
-public final class Pagination
+public final class Paging
 {
 	private int page = Constants.MIN_PAGE;
 	private int pageSize = Constants.MIN_PAGE_SIZE;
 	private String sortOrder = Constants.DEFAULT_SORT_ORDER;
 	private String sortBy;
 
+
+	@Override
+	public String toString()
+	{
+		return "Paging [page=" + this.page + ", pageSize=" + this.pageSize
+				+ ", sortOrder=" + this.sortOrder + ", sortBy=" + this.sortBy + "]";
+	}
 
 	public Pageable toPageRequest()
 	{
