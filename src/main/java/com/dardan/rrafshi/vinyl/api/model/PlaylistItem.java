@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @JsonSerialize(using=PlaylistItemSerializer.class)
-public final class PlaylistItem implements Serializable
+public final class PlaylistItem implements Serializable, Comparable<PlaylistItem>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -49,6 +49,17 @@ public final class PlaylistItem implements Serializable
 
 		final PlaylistItem other = (PlaylistItem) object;
 		return Objects.equals(this.playlistItemID, other.playlistItemID);
+	}
+
+	@Override
+	public int compareTo(final PlaylistItem playlistItem)
+	{
+		if(this.sequence < playlistItem.sequence)
+			return -1;
+		else if(this.sequence > playlistItem.sequence)
+			return 1;
+		else
+			return 0;
 	}
 
 	@Override
