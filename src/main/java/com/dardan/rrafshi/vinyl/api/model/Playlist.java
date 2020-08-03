@@ -19,11 +19,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.dardan.rrafshi.vinyl.api.model.serializer.PlaylistSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 @Entity
+@JsonSerialize(using=PlaylistSerializer.class)
 public final class Playlist implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -276,7 +279,7 @@ public final class Playlist implements Serializable
 			this.isPublic = 0;
 	}
 
-	@JsonProperty
+	@JsonIgnore
 	public String getImagePath()
 	{
 		return this.imagePath;

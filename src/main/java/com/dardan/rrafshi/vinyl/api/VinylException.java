@@ -79,6 +79,40 @@ public final class VinylException
 		}
 	}
 
+	@ResponseStatus(code=HttpStatus.LENGTH_REQUIRED)
+	public static class LengthRequired extends ApplicationRuntimeException
+	{
+		private static final long serialVersionUID = 1L;
+
+
+		public LengthRequired(final String message, final Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		public LengthRequired(final String message)
+		{
+			super(message);
+		}
+	}
+
+	@ResponseStatus(code=HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+	public static class UnsupportedMediaType extends ApplicationRuntimeException
+	{
+		private static final long serialVersionUID = 1L;
+
+
+		public UnsupportedMediaType(final String message, final Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		public UnsupportedMediaType(final String message)
+		{
+			super(message);
+		}
+	}
+
 	@ResponseStatus(code=HttpStatus.INTERNAL_SERVER_ERROR)
 	public static class InternalServerError extends ApplicationRuntimeException
 	{

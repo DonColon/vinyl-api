@@ -5,8 +5,13 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +22,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dardan.rrafshi.commons.Strings;
+import com.dardan.rrafshi.vinyl.api.Constants;
 import com.dardan.rrafshi.vinyl.api.VinylException;
 import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Adding;
 import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Moving;
 import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Paging;
+import com.dardan.rrafshi.vinyl.api.file.ImageFile;
+import com.dardan.rrafshi.vinyl.api.file.MediaFiles;
+import com.dardan.rrafshi.vinyl.api.file.storage.FileStorage;
 import com.dardan.rrafshi.vinyl.api.model.Playlist;
 import com.dardan.rrafshi.vinyl.api.model.PlaylistItem;
 import com.dardan.rrafshi.vinyl.api.model.Track;
@@ -41,6 +50,10 @@ public final class PlaylistController
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	@Qualifier("localStorage")
+	private FileStorage fileStorage;
 
 
 	@PostMapping("/users/{userID}/playlists")
@@ -95,6 +108,69 @@ public final class PlaylistController
 		this.playlistRepository.deleteAll(playlists);
 	}
 
+
+	@GetMapping("/playlists/{playlistID}/images")
+	public ResponseEntity<byte[]> downloadImage(@PathVariable final long playlistID)
+	{
+		final Optional<Playlist> entity = this.playlistRepository.findById(playlistID);
+
+		if(!entity.isPresent())
+			throw new VinylException.NotFound("The playlist with the ID '" + playlistID + "' does not exist");
+
+		final Playlist playlist = entity.get();
+		final String imagePath = playlist.getImagePath();
+
+		if(Strings.isBlank(imagePath))
+			throw new VinylException.NotFound("The playlist has no image to load");
+
+		final ImageFile file = this.fileStorage.downloadImage(imagePath);
+
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(file.getMediaType()))
+				.contentLength(file.getFileSize())
+				.header(HttpHeaders.CONTENT_DISPOSITION, String.format(Constants.FILE_ATTACHMENT, file.getName()))
+				.body(file.getBody());
+	}
+
+	@PutMapping("/playlists/{playlistID}/images")
+	@ResponseStatus(code=HttpStatus.CREATED)
+	public Playlist uploadImage(@PathVariable final long playlistID, final RequestEntity<byte[]> request)
+	{
+		final Optional<Playlist> entity = this.playlistRepository.findById(playlistID);
+
+		if(!entity.isPresent())
+			throw new VinylException.NotFound("The playlist with the ID '" + playlistID + "' does not exist");
+
+		final HttpHeaders headers = request.getHeaders();
+		final byte[] body = request.getBody();
+
+
+		if(!headers.containsKey(HttpHeaders.CONTENT_LENGTH))
+			throw new VinylException.LengthRequired("Define the content length of the image file");
+
+		final long contentLength = headers.getContentLength();
+
+		if(contentLength != body.length)
+			throw new VinylException.BadRequest("The value of the content-length header does not match the actual length");
+
+
+		final MediaType mediaType = headers.getContentType();
+
+		final boolean isSupported = MediaType.parseMediaTypes(Constants.SUPPORTED_IMAGE_TYPES)
+				.stream().anyMatch(type -> type.equalsTypeAndSubtype(mediaType));
+
+		if(!isSupported)
+			throw new VinylException.UnsupportedMediaType("The value of the content-type is not supported");
+
+
+		final Playlist playlist = entity.get();
+
+		final ImageFile file = MediaFiles.createPlaylistImageFile(playlist, mediaType, body);
+		this.fileStorage.uploadImage(file);
+
+		playlist.setImagePath(file.getName());
+		return this.playlistRepository.save(playlist);
+	}
 
 	@PostMapping("/playlists/{playlistID}/tracks")
 	@ResponseStatus(code=HttpStatus.CREATED)
