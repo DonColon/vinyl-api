@@ -240,6 +240,40 @@ public final class PlaylistController
 		return this.playlistRepository.save(playlist);
 	}
 
+	@PutMapping("/subscribers/{userID}/playlists")
+	@ResponseStatus(code=HttpStatus.CREATED)
+	public void subscribePlaylists(@PathVariable final long userID, @RequestBody final List<Long> indices)
+	{
+		final Optional<User> entity = this.userRepository.findById(userID);
+
+		if(!entity.isPresent())
+			throw new VinylException.NotFound("The user with the ID '" + userID + "' does not exist");
+
+		final User user = entity.get();
+
+		for(final Playlist playlist : this.playlistRepository.findAllById(indices)) {
+			playlist.addSubscriber(user);
+			this.playlistRepository.save(playlist);
+		}
+	}
+
+	@DeleteMapping("/subscribers/{userID}/playlists")
+	@ResponseStatus(code=HttpStatus.NO_CONTENT)
+	public void unsubscribePlaylists(@PathVariable final long userID, @RequestBody final List<Long> indices)
+	{
+		final Optional<User> entity = this.userRepository.findById(userID);
+
+		if(!entity.isPresent())
+			throw new VinylException.NotFound("The user with the ID '" + userID + "' does not exist");
+
+		final User user = entity.get();
+
+		for(final Playlist playlist : this.playlistRepository.findAllById(indices)) {
+			playlist.removeSubscriber(user);
+			this.playlistRepository.save(playlist);
+		}
+	}
+
 
 	@GetMapping("/playlists")
 	public List<Playlist> listPlaylists(final Paging paging)

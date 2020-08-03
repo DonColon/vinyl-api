@@ -140,12 +140,14 @@ public final class Playlist implements Serializable
 
 	public void addSubscriber(final User user)
 	{
-		this.subscribers.add(user);
+		if(!this.subscribers.contains(user))
+			this.subscribers.add(user);
 	}
 
 	public void removeSubscriber(final User user)
 	{
-		this.subscribers.remove(user);
+		if(this.subscribers.contains(user))
+			this.subscribers.remove(user);
 	}
 
 
