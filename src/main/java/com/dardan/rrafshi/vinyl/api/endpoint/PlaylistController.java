@@ -24,19 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dardan.rrafshi.commons.Strings;
 import com.dardan.rrafshi.vinyl.api.Constants;
 import com.dardan.rrafshi.vinyl.api.VinylException;
+import com.dardan.rrafshi.vinyl.api.configuration.AppConfiguration;
 import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Adding;
 import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Moving;
 import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Paging;
-import com.dardan.rrafshi.vinyl.api.file.ImageFile;
-import com.dardan.rrafshi.vinyl.api.file.MediaFiles;
-import com.dardan.rrafshi.vinyl.api.file.storage.FileStorage;
-import com.dardan.rrafshi.vinyl.api.model.Playlist;
-import com.dardan.rrafshi.vinyl.api.model.PlaylistItem;
-import com.dardan.rrafshi.vinyl.api.model.Track;
-import com.dardan.rrafshi.vinyl.api.model.User;
 import com.dardan.rrafshi.vinyl.api.repository.PlaylistRepository;
 import com.dardan.rrafshi.vinyl.api.repository.TrackRepository;
 import com.dardan.rrafshi.vinyl.api.repository.UserRepository;
+import com.dardan.rrafshi.vinyl.api.repository.model.Playlist;
+import com.dardan.rrafshi.vinyl.api.repository.model.PlaylistItem;
+import com.dardan.rrafshi.vinyl.api.repository.model.Track;
+import com.dardan.rrafshi.vinyl.api.repository.model.User;
+import com.dardan.rrafshi.vinyl.api.storage.FileStorage;
+import com.dardan.rrafshi.vinyl.api.storage.MediaFiles;
+import com.dardan.rrafshi.vinyl.api.storage.model.ImageFile;
 
 
 @RestController
@@ -52,8 +53,11 @@ public final class PlaylistController
 	private UserRepository userRepository;
 
 	@Autowired
+	private AppConfiguration configuration;
+
+	@Autowired
 	@Qualifier("localStorage")
-	private FileStorage fileStorage;
+	private FileStorage storage;
 
 
 	@PostMapping("/users/{userID}/playlists")
@@ -123,7 +127,7 @@ public final class PlaylistController
 		if(Strings.isBlank(imagePath))
 			throw new VinylException.NotFound("The playlist has no image to load");
 
-		final ImageFile file = this.fileStorage.downloadImage(imagePath);
+		final ImageFile file = this.storage.downloadImage(imagePath);
 
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(file.getMediaType()))
@@ -141,9 +145,9 @@ public final class PlaylistController
 		if(!entity.isPresent())
 			throw new VinylException.NotFound("The playlist with the ID '" + playlistID + "' does not exist");
 
+
 		final HttpHeaders headers = request.getHeaders();
 		final byte[] body = request.getBody();
-
 
 		if(!headers.containsKey(HttpHeaders.CONTENT_LENGTH))
 			throw new VinylException.LengthRequired("Define the content length of the image file");
@@ -153,10 +157,9 @@ public final class PlaylistController
 		if(contentLength != body.length)
 			throw new VinylException.BadRequest("The value of the content-length header does not match the actual length");
 
-
 		final MediaType mediaType = headers.getContentType();
 
-		final boolean isSupported = MediaType.parseMediaTypes(Constants.SUPPORTED_IMAGE_TYPES)
+		final boolean isSupported = MediaType.parseMediaTypes(this.configuration.getSupportedImageTypes())
 				.stream().anyMatch(type -> type.equalsTypeAndSubtype(mediaType));
 
 		if(!isSupported)
@@ -166,7 +169,7 @@ public final class PlaylistController
 		final Playlist playlist = entity.get();
 
 		final ImageFile file = MediaFiles.createPlaylistImageFile(playlist, mediaType, body);
-		this.fileStorage.uploadImage(file);
+		this.storage.uploadImage(file);
 
 		playlist.setImagePath(file.getName());
 		return this.playlistRepository.save(playlist);

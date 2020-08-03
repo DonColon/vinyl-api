@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.dardan.rrafshi.vinyl.api.model.Track;
+import com.dardan.rrafshi.vinyl.api.repository.model.Track;
 
 
 @Repository

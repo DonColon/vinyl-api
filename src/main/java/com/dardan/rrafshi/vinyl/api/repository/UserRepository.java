@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.dardan.rrafshi.vinyl.api.model.User;
+import com.dardan.rrafshi.vinyl.api.repository.model.User;
 
 
 @Repository

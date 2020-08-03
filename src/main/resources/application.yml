@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vinyl?serverTimezone=UTC
+    username: rrafshda
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+app:
+  supported-image-types:
+  - image/jpeg
+  - image/png
+  - image/gif
+  supported-audio-typed:
+  - audio/mpeg
+  - audio/mp4
+
+storage:
+  root-path: C:/vinyl
+  image-path: images
+  audio-path: audios

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dardan.rrafshi.commons.Strings;
 import com.dardan.rrafshi.vinyl.api.VinylException;
 import com.dardan.rrafshi.vinyl.api.endpoint.parameter.Paging;
-import com.dardan.rrafshi.vinyl.api.model.Artist;
 import com.dardan.rrafshi.vinyl.api.repository.ArtistRepository;
+import com.dardan.rrafshi.vinyl.api.repository.model.Artist;
 
 
 @RestController
@@ -25,6 +25,7 @@ public final class ArtistController
 {
 	@Autowired
 	private ArtistRepository artistRepository;
+
 
 
 	@GetMapping("/artists/{artistID}")
