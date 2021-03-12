@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import com.dardan.rrafshi.commons.crypto.Passwords;
+import com.dardan.rrafshi.commons.security.Passwords;
 
 
 @Configuration
